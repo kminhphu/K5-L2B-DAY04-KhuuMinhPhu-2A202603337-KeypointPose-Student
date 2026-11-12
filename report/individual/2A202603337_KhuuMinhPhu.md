@@ -24,27 +24,25 @@ Dữ liệu: 12 ảnh người COCO val2017 (Lin et al., 2014) và 8 ảnh chân
 | `face` | | | | | |
 
 Mẫu `person` dựng theo người quay mặt về camera (các điểm `left_*` nằm bên phải khung mẫu)? Có / Không
-
+Trả lời: Có
 Cách đổi cờ `occluded` / `outside` cho **một điểm** trên phiên bản CVAT này (một câu):
-
-...
+Chọn điểm, nếu occluded nhấn phím Q, outside thì nhấn phím O hoặc chuột phải vào điểm và chọn occluded hoặc outside
 
 ## 2. Số lượng đã gán và thời gian (CP1, CP2)
 
 | Nhóm ảnh | Số ảnh | Số skeleton đã gán | Số người dưới 60 px (không gán) | Số poster / gương / màn hình bỏ qua | Thời gian (phút) |
 |---|---:|---:|---:|---:|---:|
-| `easy` | 5 | | | | |
-| `occluded` | 3 | | | | |
-| `back` | 2 | | | | |
-| `small` | 1 | | | | |
-| `crowd` | 1 | | | | |
-| `faces` | 8 | | — | | |
+| `easy` | 5 | 5 | 0 | 0 | 25 |
+| `occluded` | 3 | 3 | 6 | 0 | 7 |
+| `back` | 2 | 4 | 0 | 0 | 8 |
+| `small` | 1 | 2 | 5 | 1 | 7 |
+| `crowd` | 1 | 3| 5| 0 | 12 |
+| `faces` | 8 | 8 | — | 0 | 40 |
 
-- Số ảnh người đã xong ở mốc phút 105: ___ / 10
-- Thời gian thực tế (phút): CP1 ___ · CP2 ___ · CP3 ___
+- Số ảnh người đã xong ở mốc phút 105: 8 / 10
+- Thời gian thực tế (phút): CP1 120 · CP2 30 · CP3 20
 - Ảnh tốn thời gian nhất là ảnh nào, vì sao?
-
-...
+Trả lời: Ảnh tốn thời gian nhất là ảnh 000000381889.jpg vì có nhiều đối tượng và có cả occluded và outside
 
 ## 3. Bảng ca khó (CP1, CP2)
 
@@ -53,7 +51,7 @@ Mỗi điểm bạn phân vân một dòng, nhất là phân vân giữa `v = 1`
 | Ảnh | Người / mặt | Điểm | Cờ đã chọn | Phân vân giữa | Lý do chọn |
 |---|---|---|---:|---|---|
 |face_99874.jpg |Mặt |1, 2, 3, 4, 5, 6, 7, 8 | v = 1 (occluded) |v = 1 và v = 0  |xem lại GUIDELINE.md |
-| | | | | | |
+|000000381889.jpg |Người |9, 10, 11, 12 | v = 0 (outside|v = 1 và v = 0 | |
 | | | | | | |
 
 ## 4. Bảng tự review (CP3)
