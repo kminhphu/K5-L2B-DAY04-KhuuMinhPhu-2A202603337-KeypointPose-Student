@@ -1,0 +1,43 @@
+{
+ "mssv": "2A202603337",
+ "ten": "KhuuMinhPhu",
+ "pool_version": "d04-k5-v2",
+ "cvat_user": "phu",
+ "project": "d04-keypoint",
+ "persons": [
+  "000000072098.jpg",
+  "000000162046.jpg",
+  "000000194027.jpg",
+  "000000196283.jpg",
+  "000000429594.jpg",
+  "000000179201.jpg",
+  "000000324953.jpg",
+  "000000580257.jpg",
+  "000000054909.jpg",
+  "000000351176.jpg",
+  "000000167027.jpg",
+  "000000381889.jpg"
+ ],
+ "faces": [
+  "face_125051.jpg",
+  "face_145751.jpg",
+  "face_232598.jpg",
+  "face_185015.jpg",
+  "face_449454.jpg",
+  "face_556064.jpg",
+  "face_99874.jpg",
+  "face_333134.jpg"
+ ],
+ "tasks": {
+  "persons": {
+   "task_id": 11,
+   "job_id": 11,
+   "task_name": "persons-KhuuMinhPhu"
+  },
+  "faces": {
+   "task_id": 12,
+   "job_id": 12,
+   "task_name": "faces-KhuuMinhPhu"
+  }
+ }
+}
