@@ -52,7 +52,7 @@ Mỗi điểm bạn phân vân một dòng, nhất là phân vân giữa `v = 1`
 
 | Ảnh | Người / mặt | Điểm | Cờ đã chọn | Phân vân giữa | Lý do chọn |
 |---|---|---|---:|---|---|
-| | | | | | |
+|face_99874.jpg |Mặt |1, 2, 3, 4, 5, 6, 7, 8 | v = 1 (occluded) |v = 1 và v = 0  |xem lại GUIDELINE.md |
 | | | | | | |
 | | | | | | |
 
