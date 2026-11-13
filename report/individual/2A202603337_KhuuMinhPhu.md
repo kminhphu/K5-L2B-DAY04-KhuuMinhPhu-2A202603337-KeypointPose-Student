@@ -20,8 +20,8 @@ Dữ liệu: 12 ảnh người COCO val2017 (Lin et al., 2014) và 8 ảnh chân
 
 | Label | Kiểu | Số điểm | Tên điểm đúng bảng của lab? | Đúng thứ tự? | Số cạnh |
 |---|---|---:|---|---|---:|
-| `person` | | | | | |
-| `face` | | | | | |
+| `person` |Skeleton người |17 |Đúng |Đúng |19 |
+| `face` |Skeleton khuôn mặt |13 |Đúng |Đúng |13 |
 
 Mẫu `person` dựng theo người quay mặt về camera (các điểm `left_*` nằm bên phải khung mẫu)? Có / Không
 Trả lời: Có
@@ -51,8 +51,8 @@ Mỗi điểm bạn phân vân một dòng, nhất là phân vân giữa `v = 1`
 | Ảnh | Người / mặt | Điểm | Cờ đã chọn | Phân vân giữa | Lý do chọn |
 |---|---|---|---:|---|---|
 |face_99874.jpg |Mặt |1, 2, 3, 4, 5, 6, 7, 8 | v = 1 (occluded) |v = 1 và v = 0  |xem lại GUIDELINE.md |
-|000000381889.jpg |Người |9, 10, 11, 12 | v = 0 (outside|v = 1 và v = 0 | |
-| | | | | | |
+|000000381889.jpg |Người |9, 10, 11, 12 | v = 0 (outside)|v = 1 và v = 0 |Bị khuất không thể đoán được |
+|000000167027.jpg |Người |13 điểm |v = 0 (outside) |Gán và không gán |Người cao dưới 60 px |
 
 ## 4. Bảng tự review (CP3)
 
@@ -62,14 +62,14 @@ Mã lỗi dùng đúng một trong: `lr_swap`, `vis_flag`, `position`, `missing`
 
 | Ảnh | Người / mặt | Điểm | Mã lỗi | Ghi chú | Đã sửa? |
 |---|---|---|---|---|---|
-| | | | | | |
-| | | | | | |
-| | | | | | |
-| | | | | | |
-| | | | | | |
-| | | | | | |
-| | | | | | |
-| | | | | | |
+|000000580257.jpg |Người | |ok |Không có lỗi | |
+|000000429594.jpg |Người | |ok |Không có lỗi | |
+|000000381889.jpg |Người | |missing | Người cao trên 60px |Đã sửa |
+|000000351176.jpg |Người | |ok |Không có lỗi | |
+|000000324953.jpg |Người | |lr_swap |Người quay lưng |Đã sửa |
+|face_99874.jpg |Mặt |1, 2, 3, 4, 5, 6, 7, 8 |vis_flag |Đeo kính râm |Đã sửa |
+|face_556064.jpg |Mặt | |ok |Không có lỗi | |
+|face_449454.jpg |Mặt | |ok |Không có lỗi | |
 
 Tổng hợp số lỗi theo mã:
 
@@ -87,9 +87,8 @@ Tự kiểm tay trong file JSON:
 
 | File | Người / mặt kiểm (ảnh, thứ tự) | Số phần tử `keypoints` | Điểm `outside` ra `v = 0`, `occluded` ra `v = 1`? | `num_keypoints` khớp? |
 |---|---|---:|---|---|
-| `HoVaTen_persons.zip` | | | | |
-| `HoVaTen_persons.zip` | | | | |
-| `HoVaTen_faces.zip` | | | | |
+| `KhuuMinhPhu_persons.zip` |Người |20 | | |
+| `KhuuMinhPhu_faces.zip` |Mặt |8 | | |
 
 Sau khi xuất, CVAT ghi `occluded` thành `v = ___` và `outside` thành `v = ___`. Tọa độ của điểm `outside` trong file là `0, 0` hay tọa độ cũ? ___
 
@@ -98,12 +97,24 @@ Hai job đã chuyển sang completed trên CVAT? Có / Không
 Dán phần **TÓM TẮT** in ra từ `src/check_submission.py`:
 
 ```text
-(dán ở đây)
+- File person: KhuuMinhPhu_persons.zip
+  Số ảnh: 12 · số skeleton `person`: 20 · mỗi annotation 51 số
+  Skeleton theo ảnh: 000000054909=2, 000000072098=1, 000000162046=1, 000000167027=2, 000000179201=2, 000000194027=1, 000000196283=1, 000000324953=2, 000000351176=2, 000000381889=3, 000000429594=1, 000000580257=2
+  Cờ v: v=2 225 (66%) · v=1 35 (10%) · v=0 80 (24%)
+  num_keypoints trung bình: 13.0
+- File face: KhuuMinhPhu_faces.zip
+  Số ảnh: 8 · số skeleton `face`: 8 · mỗi annotation 39 số
+  Skeleton theo ảnh: face_125051=1, face_145751=1, face_185015=1, face_232598=1, face_333134=1, face_449454=1, face_556064=1, face_99874=1
+  Cờ v: v=2 96 (92%) · v=1 8 (8%) · v=0 0 (0%)
+  num_keypoints trung bình: 13.0
+- Ghi chú: 80 điểm v = 0 vẫn mang tọa độ cũ (CVAT 2.x xuất như vậy; chuẩn COCO ghi 0, 0). Không phải lỗi: điểm v = 0 bị bỏ qua khi huấn luyện và khi chấm.
+- Số [LỖI]: 0 · số [CẢNH BÁO]: 1
+Kết quả: ĐẠT (đọc lại từng cảnh báo ở trên)
 ```
 
 Các `[CẢNH BÁO]` còn giữ nguyên và lý do:
 
-...
+ [CẢNH BÁO] 000000580257.jpg #1: cặp ankle nằm ngược phía so với các cặp còn lại. Có thể đổi trái/phải một cặp (`lr_swap`), hoặc tay / chân bắt chéo thật: kiểm lại. Lý do giữ lại là do chân bắt chéo thật.
 
 ## 6. Ảnh chụp màn hình
 
@@ -129,11 +140,11 @@ Nguồn ảnh: COCO val2017 / Wikimedia Commons.
 
 1. Lỗi bạn mắc nhiều nhất hôm nay, và cách bạn sẽ tránh ở dự án thật:
 
-   ...
+   
 
 2. Một quy tắc bạn đề xuất thêm vào guideline (kèm ảnh ví dụ nếu có):
 
-   ...
+   Không có
 
 3. Nhãn của bạn đi vào model ở đâu? Chọn một lỗi bạn đã sửa và nói nó sẽ làm model học sai thế nào (heatmap, trọng số trong loss, hay bước lật ảnh):
 
@@ -141,7 +152,7 @@ Nguồn ảnh: COCO val2017 / Wikimedia Commons.
 
 ## 8. Khó khăn và lỗi kỹ thuật
 
-...
+
 
 ## Bonus (nếu làm)
 
@@ -183,5 +194,4 @@ Kết quả `src/check_submission.py` cho `HoVaTen_bonus_persons.zip`:
    ...
 
 ## 9. Tài liệu tham khảo và công cụ AI đã dùng
-
-...
+Công cụ AI đã dùng: Gemini - hỗ trợ giải thích thuật ngữ và trong lúc viết báo cáo.
