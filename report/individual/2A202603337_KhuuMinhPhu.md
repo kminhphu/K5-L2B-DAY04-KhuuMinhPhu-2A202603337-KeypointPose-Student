@@ -14,7 +14,7 @@ Dữ liệu: 12 ảnh người COCO val2017 (Lin et al., 2014) và 8 ảnh chân
 - Máy: hệ điều hành Windows · RAM 32 GB · chạy CVAT chế độ đầy đủ
 - Bộ ảnh (`src/exports/assignment.json` do `lab.py setup` tạo): có 
 - Giờ bắt đầu: 17h21p ngày 12/11/2026
-- Giờ kết thúc:
+- Giờ kết thúc: 11h55 ngày 13/11/2026
 
 ## 1. Kiểm tra label (CP0)
 
@@ -75,11 +75,11 @@ Tổng hợp số lỗi theo mã:
 
 | `lr_swap` | `vis_flag` | `position` | `missing` | `extra` | `ok` |
 |---:|---:|---:|---:|---:|---:|
-| | | | | | |
+| 1| 1| 0| 1| 0| 5|
 
 Điểm còn phân vân giữa `v = 1` và `v = 0` (ghi cả hai lựa chọn và lý do chọn):
 
-...
+Không có. v = 1 khi điểm bị khuất nhưng vẫn còn bắng chứng để đoán được, v = 0 khi vật bị khuất mất hoặc ra khỏi ảnh và không thể đoán được.
 
 ## 5. Kiểm file xuất và kết quả tự kiểm (CP4)
 
@@ -87,12 +87,12 @@ Tự kiểm tay trong file JSON:
 
 | File | Người / mặt kiểm (ảnh, thứ tự) | Số phần tử `keypoints` | Điểm `outside` ra `v = 0`, `occluded` ra `v = 1`? | `num_keypoints` khớp? |
 |---|---|---:|---|---|
-| `KhuuMinhPhu_persons.zip` |Người |20 | | |
-| `KhuuMinhPhu_faces.zip` |Mặt |8 | | |
+| `KhuuMinhPhu_persons.zip` |000000054909.jpg, thứ tự 2 | 51| Có (v=0: 7 điểm, v=1: 1 điểm)|Có (10/10) |
+| `KhuuMinhPhu_faces.zip` |face_99874.jpg, thứ tự 1 |39 |Có (v=1: 8 điểm, v=2: 5 điểm) |Có (13/13) |
 
-Sau khi xuất, CVAT ghi `occluded` thành `v = ___` và `outside` thành `v = ___`. Tọa độ của điểm `outside` trong file là `0, 0` hay tọa độ cũ? ___
+Sau khi xuất, CVAT ghi `occluded` thành `v = 1` và `outside` thành `v = 0`. Tọa độ của điểm `outside` trong file là `0, 0` hay tọa độ cũ? Tọa độ cũ
 
-Hai job đã chuyển sang completed trên CVAT? Có / Không
+Hai job đã chuyển sang completed trên CVAT? Có 
 
 Dán phần **TÓM TẮT** in ra từ `src/check_submission.py`:
 
@@ -140,7 +140,7 @@ Nguồn ảnh: COCO val2017 / Wikimedia Commons.
 
 1. Lỗi bạn mắc nhiều nhất hôm nay, và cách bạn sẽ tránh ở dự án thật:
 
-   
+   Nhầm lẫn giữa v = 1 và v = 0, cách khắc phục là còn đoán được thì v = 1, ngược lại không đoán được vị trí chính xác thì v = 0.
 
 2. Một quy tắc bạn đề xuất thêm vào guideline (kèm ảnh ví dụ nếu có):
 
@@ -148,10 +148,10 @@ Nguồn ảnh: COCO val2017 / Wikimedia Commons.
 
 3. Nhãn của bạn đi vào model ở đâu? Chọn một lỗi bạn đã sửa và nói nó sẽ làm model học sai thế nào (heatmap, trọng số trong loss, hay bước lật ảnh):
 
-   ...
+   Nhãn không đưa trực tiếp vào mạng nơ-ron như một đầu vào (input), mà đi vào Pipeline xử lý dữ liệu và tính Loss ở đầu ra. Chọn lỗi gán nhầm bên trái và bên phải, khi ảnh bị lật ngược thì điểm bên trái sẽ bị hoán vị thành bên phải gây ra mâu thuẫn không gian đối xứng làm mô hình bị loạn và không thể phân biệt được hướng trái/phải của cơ thể, dẫn đến khi suy luận mô hình thường xuyên bắt chéo tay hoặc nhầm lẫn hai bên đối xứng.
 
 ## 8. Khó khăn và lỗi kỹ thuật
-
+Khó khăn trong việc lựa chọn v = 1 và v = 0 và lỗi gán nhầm bên trái và bên phải
 
 
 ## Bonus (nếu làm)
